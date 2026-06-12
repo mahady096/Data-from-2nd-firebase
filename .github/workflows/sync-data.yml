@@ -1,0 +1,26 @@
+name: Sync Data from Other Firebase
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # বাংলাদেশ সময় বিকাল ৪টা (UTC 10:00)
+  workflow_dispatch:        # ম্যানুয়ালি রান করাতে চাইলে
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install firebase-admin
+
+      - name: Run sync script
+        env:
+          SOURCE_FIREBASE_SA: ${{ secrets.SOURCE_FIREBASE_SA }}
+        run: node scripts/sync-data.js
