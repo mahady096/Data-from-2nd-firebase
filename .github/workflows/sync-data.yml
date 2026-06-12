@@ -2,8 +2,11 @@ name: Sync Data from Other Firebase
 
 on:
   schedule:
-    - cron: '0 10 * * *'   # বাংলাদেশ সময় বিকাল ৪টা (UTC 10:00)
-  workflow_dispatch:        # ম্যানুয়ালি রান করাতে চাইলে
+    - cron: '0 10 * * *'   # প্রতিদিন বাংলাদেশ সময় বিকাল ৪টায় (UTC 10:00)
+  workflow_dispatch:        # ম্যানুয়ালি চালানোর জন্য বাটন
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'   # Node.js 24 বাধ্যতামূলক
 
 jobs:
   sync:
@@ -15,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'   # Node.js 24 ব্যবহার করবে
 
       - name: Install dependencies
         run: npm install firebase-admin
